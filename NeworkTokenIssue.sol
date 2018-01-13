@@ -27,8 +27,8 @@ contract NeworkTokenIssue {
         require(SafeMath.sub(block.number, lastBlockNumber) > 2102400);
         NeworkToken tokenContract = NeworkToken(tokenContractAddress);
         //adjust total supply every year
-        lastYearTotalSupply = tokenContract.totalSupply(); 
-        uint256 amount = SafeMath.div(SafeMath.mul(lastYearTotalSupply, 3%), 10000);
+        lastYearTotalSupply = tokenContract.totalSupply();
+        uint256 amount = SafeMath.div(SafeMath.mul(lastYearTotalSupply, 3), 100);
         require(amount > 0);
         tokenContract.issue(amount);
         lastBlockNumber = block.number;
