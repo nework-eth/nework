@@ -16,7 +16,7 @@ contract NeworkTokenIssue {
 
     // anyone can call this function
     function issue() public  {
-        // 1 block per 15 sec, 
+        // 1 block per 15 sec, one year
         require(SafeMath.sub(block.number, lastBlockNumber) > 2102400);
         NeworkToken tokenContract = NeworkToken(tokenContractAddress);
         //adjust total supply every year
