@@ -11,7 +11,7 @@ interface tokenRecipient {
 contract NeworkToken {
 
     // Public variables of the token
-    string public name = 'NeworkCommunities';
+    string public name = 'NeworkCoin';
 
     string public symbol = 'NEW';
 
