@@ -13,7 +13,7 @@ contract NeworkToken {
     // Public variables of the token
     string public name = 'NeworkCoin';
 
-    string public symbol = 'NKC';
+    string public symbol = 'WORK';
 
     uint8 public decimals = 18;
 
