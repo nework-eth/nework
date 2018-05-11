@@ -1,7 +1,5 @@
 package com.nkc.pay;
 
-import com.nkc.pay.service.WithdrawService;
-import com.nkc.pay.util.JSONUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +29,10 @@ import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -48,11 +44,9 @@ public class NKCPayCoreApplicationTests {
 		//Method For Get Balance of ETH
     @Test
     public void getBalbanceETH() throws Exception {
-        String address = "wallet-address";
-        EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
+        EthGetBalance ethGetBalance = web3j.ethGetBalance("wallet-address", DefaultBlockParameterName.LATEST).send();
 				if (ethGetBalance != null) {
             System.out.println(Convert.fromWei(ethGetBalance.getBalance().toString(), Convert.Unit.ETHER));
-
         }
     }
     
@@ -76,15 +70,11 @@ public class NKCPayCoreApplicationTests {
         String toAddress = "send-to-address";
         EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(
                 fromAddress, DefaultBlockParameterName.LATEST).sendAsync().get();
-
         BigInteger nonce = ethGetTransactionCount.getTransactionCount();
 
-        Address address = new Address(toAddress);
-        Uint256 value = new Uint256(new BigInteger("money-amount(unit WEI)"));
-
         List<Type> parametersList = new ArrayList<>();
-        parametersList.add(address);
-        parametersList.add(value);
+        parametersList.add(new Address(toAddress));
+        parametersList.add(new Uint256(new BigInteger("money-amount(unit WEI)")));
 
         List<TypeReference<?>> outList = new ArrayList<>();
 
@@ -107,14 +97,13 @@ public class NKCPayCoreApplicationTests {
         EthSendTransaction ethSendTransaction = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
         String transactionHash = ethSendTransaction.getTransactionHash();
         System.out.println(transactionHash);
-        file.delete();
     }
 
     //Method For Create A Wallet of The ETH or ETH-Smart-Coin
     @Test
     public void createWallet() throws Exception {
-        String password = "password";
-        File file = new File("create wallet-file dir");
-        String fileName = WalletUtils.generateNewWalletFile("password",file, true);
+        File fileDirPath = new File("create wallet-file dir");
+        String fileName = WalletUtils.generateNewWalletFile("password",fileDirPath, true);
     }
+    
 }
